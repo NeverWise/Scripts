@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Improve Libero mail
 // @namespace    https://github.com/NeverWise/scripts
-// @version      0.1
+// @version      0.2
 // @description  Remove ads and show some useful information.
 // @author       NeverWise
 // @match        https://mail.libero.it/appsuite/*
@@ -63,7 +63,13 @@ let addFolderBadge = elements => {
                                 let counters = folder_node.getElementsByClassName('folder-counter');
                                 if (counters.length === 1) {
                                     let folder_counter = counters[0];
-                                    let lbl = `<span class="badge">${nums.length === 2 ? `${nums[1]} | ${nums[0]}` : nums[0]}</span>`;
+                                    let badge_bg_color = '';
+                                    let badge_content = nums[0];
+                                    if (nums.length === 2) {
+                                        badge_content = `${nums[1]} | ${nums[0]}`;
+                                        if (parseInt(nums[1]) > 0) badge_bg_color = 'background-color: #16548f;';
+                                    }
+                                    let lbl = `<span class="badge" style="color:#fff;${badge_bg_color}">${badge_content}</span>`;
                                     result = setStyleProperty(folder_counter, 'float', 'right', null);
                                     if (folder_counter.innerHTML != lbl) {
                                         folder_counter.innerHTML = lbl;
@@ -95,6 +101,14 @@ let checkWindowsBodies = elements => {
     return result;
 };
 
+let setCssText = (element, value) => {
+    if (element.style.cssText !== value) {
+        element.style.cssText = value;
+        return true;
+    }
+    else return false;
+};
+
 let newChange = (func, funcArgs) => { return { verified: false, func: func, args: funcArgs }; };
 
 let rules = [
@@ -102,7 +116,8 @@ let rules = [
     { selector: 'div#iol-push-notification.io-ox-dialog-popup', ...newChange(removePushNotification) },
     { id: 'io.ox/mail', ...newChange(removeClass, [ 'add-adv-text-link' ]) },
     { selectorAll: 'div.window-body', ...newChange(checkWindowsBodies) },
-    { selectorAll: 'ul.subfolders li', ...newChange(addFolderBadge) }
+    { selectorAll: 'ul.subfolders li', ...newChange(addFolderBadge) },
+    { selector: 'div.rightside', ...newChange(setCssText, [ 'top: 40px !important;' ]) }
 ];
 
 let timeoutIdLogFunc = null;

@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         Search engines bar for Startpage.com
 // @namespace    https://github.com/NeverWise/scripts
-// @version      0.1
+// @version      0.2
 // @description  Bar with other preferred search engines
 // @author       NeverWise
-// @match        https://www.startpage.com/do/search
+// @match        https://*.startpage.com/do/search
 // @grant        none
 // @icon         https://www.google.com/s2/favicons?domain=www.startpage.com
 // @updateURL    https://raw.githubusercontent.com/NeverWise/Scripts/master/javascript/search-engines-startpage.user.js
@@ -48,3 +48,6 @@ for (let i = 0; i < searchEngines.length; i++) {
 }
 
 document.querySelector('.container').appendChild(divMenu);
+
+let advLinks = document.getElementById('spon-results');
+advLinks.parentNode.removeChild(advLinks);
