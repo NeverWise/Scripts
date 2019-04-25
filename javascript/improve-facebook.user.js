@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         Improve Facebook
 // @namespace    https://github.com/NeverWise/scripts
-// @version      0.1
+// @version      0.2
 // @description  Remove annoying elements.
 // @author       NeverWise
-// @match        https://www.facebook.com/*
+// @match        https://*.facebook.com/*
 // @grant        none
-// @icon         https://scontent.fmxp1-1.fna.fbcdn.net/v/t1.0-0/p370x247/10407291_660920887306623_6175074563602962791_n.png?_nc_cat=101&_nc_ht=scontent.fmxp1-1.fna&oh=9b58f7238d70c3611538a87e8b5760af&oe=5CA22E43
+// @icon         https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Facebook_icon_2013.svg/1024px-Facebook_icon_2013.svg.png
 // @updateURL    https://raw.githubusercontent.com/NeverWise/Scripts/master/javascript/improve-facebook.user.js
 // @downloadURL  https://raw.githubusercontent.com/NeverWise/Scripts/master/javascript/improve-facebook.user.js
 // ==/UserScript==

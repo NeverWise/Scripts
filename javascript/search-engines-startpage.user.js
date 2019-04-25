@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         Search engines bar for Startpage.com
 // @namespace    https://github.com/NeverWise/scripts
-// @version      0.2
+// @version      0.3
 // @description  Bar with other preferred search engines
 // @author       NeverWise
-// @match        https://*.startpage.com/do/search
+// @match        https://*.startpage.com/do/search*
 // @grant        none
 // @icon         https://www.google.com/s2/favicons?domain=www.startpage.com
 // @updateURL    https://raw.githubusercontent.com/NeverWise/Scripts/master/javascript/search-engines-startpage.user.js
@@ -15,7 +15,7 @@ let query = encodeURIComponent(document.getElementById('query').value);
 let searchEngines = [
     { title: 'Qwant', img: 'https://www.qwant.com/favicon-64.png', url: `https://www.qwant.com/?q=${query}&t=web` },
     { title: 'Swisscows', img: 'https://swisscows.ch/favicon-72.png', url: `https://swisscows.ch/web?query=${query}` },
-    { title: 'Ecosia', img: 'https://www.ecosia.org/apple-touch-icon.png', url: `https://www.ecosia.org/search?q=${query}` }
+    { title: 'Ecosia', img: 'https://cdn.ecosia.org/assets/images/png/apple-touch-icon.png', url: `https://www.ecosia.org/search?q=${query}` }
 ];
 
 let divMenu = document.createElement('div');
