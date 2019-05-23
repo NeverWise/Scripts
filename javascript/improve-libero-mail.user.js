@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         Improve Libero mail
 // @namespace    https://github.com/NeverWise/scripts
-// @version      0.2
+// @version      0.3
 // @description  Remove ads and show some useful information.
 // @author       NeverWise
-// @match        https://mail.libero.it/appsuite/*
+// @match        https://mail1.libero.it/appsuite/*
 // @grant        none
-// @icon         https://mail.libero.it/appsuite/v=7.8.3-42.20180801.125422/apps/themes/libero/icon57.png
+// @icon         https://mail1.libero.it/appsuite/v=7.8.3-42.20180801.125422/apps/themes/libero/icon57.png
 // @updateURL    https://raw.githubusercontent.com/NeverWise/Scripts/master/javascript/improve-libero-mail.user.js
 // @downloadURL  https://raw.githubusercontent.com/NeverWise/Scripts/master/javascript/improve-libero-mail.user.js
 // ==/UserScript==
