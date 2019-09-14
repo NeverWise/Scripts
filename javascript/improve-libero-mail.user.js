@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Improve Libero mail
 // @namespace    https://github.com/NeverWise/scripts
-// @version      0.4
+// @version      0.5
 // @description  Remove ads and show some useful information.
 // @author       NeverWise
 // @match        https://mail1.libero.it/appsuite/*
@@ -24,10 +24,9 @@ let removeClass = (element, className) => {
     else return false;
 };
 
-let removePushNotification = element => {
+let removeElement = element => {
     if (element) {
-        let removingElement = element.parentNode;
-        removingElement.parentNode.removeChild(removingElement);
+        element.parentNode.removeChild(element);
         return true;
     }
     return false;
@@ -107,7 +106,7 @@ let newChange = (func, funcArgs) => { return { verified: false, func: func, args
 
 let rules = [
     { selector: 'div#io-ox-core.abs.unselectable', ...newChange(removeClass, [ 'show-ad' ]) },
-    { selector: 'div#iol-push-notification.io-ox-dialog-popup', ...newChange(removePushNotification) },
+    { selector: 'li.mpu-left-bk', ...newChange(removeElement) },
     { id: 'io.ox/mail', ...newChange(removeClass, [ 'add-adv-text-link' ]) },
     { selectorAll: 'div.window-body', ...newChange(checkWindowsBodies) },
     { selectorAll: 'ul.subfolders li div.folder-node', ...newChange(addFolderBadge) },
