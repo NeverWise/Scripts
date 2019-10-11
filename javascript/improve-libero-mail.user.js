@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Improve Libero mail
 // @namespace    https://github.com/NeverWise/scripts
-// @version      0.5
+// @version      0.6
 // @description  Remove ads and show some useful information.
 // @author       NeverWise
 // @match        https://mail1.libero.it/appsuite/*
@@ -106,9 +106,10 @@ let newChange = (func, funcArgs) => { return { verified: false, func: func, args
 
 let rules = [
     { selector: 'div#io-ox-core.abs.unselectable', ...newChange(removeClass, [ 'show-ad' ]) },
+    { selector: 'div#io-ox-core.abs.unselectable', ...newChange(setCssText, [ 'margin: 0px;' ]) }, // Screen width >= 1920
     { selector: 'li.mpu-left-bk', ...newChange(removeElement) },
     { id: 'io.ox/mail', ...newChange(removeClass, [ 'add-adv-text-link' ]) },
-    { selectorAll: 'div.window-body', ...newChange(checkWindowsBodies) },
+    { selectorAll: 'div.window-body', ...newChange(checkWindowsBodies) }, // Screen width < 1920
     { selectorAll: 'ul.subfolders li div.folder-node', ...newChange(addFolderBadge) },
     { selector: 'div.rightside', ...newChange(setCssText, [ 'top: 40px !important;' ]) }
 ];
