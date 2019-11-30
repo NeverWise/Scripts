@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Search engines bar for Startpage.com
 // @namespace    https://github.com/NeverWise/scripts
-// @version      0.4
+// @version      0.5
 // @description  Bar with other preferred search engines
 // @author       NeverWise
 // @match        https://*.startpage.com/*/search*
@@ -50,6 +50,7 @@ for (let i = 0; i < searchEngines.length; i++) {
 
 let container = document.querySelector('.container');
 if (!container) container = document.querySelector('div.layout.layout--default');
+if (!container) container = document.querySelector('div.layout-web.layout-web--default'); // Risultato ricerca con tab 'Notizie'.
 container.appendChild(divMenu);
 
 let advLinks = document.getElementById('spon-results');
