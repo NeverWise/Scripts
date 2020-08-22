@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Search engines bar for Startpage.com
 // @namespace    https://github.com/NeverWise/scripts
-// @version      0.6
+// @version      0.7
 // @description  Bar with other preferred search engines
 // @author       NeverWise
 // @match        https://*.startpage.com/*/search*
@@ -48,9 +48,10 @@ for (let i = 0; i < searchEngines.length; i++) {
     }
 }
 
-let container = document.querySelector('.container');
-if (!container) container = document.querySelector('div.layout.layout--default');
-if (!container) container = document.querySelector('div.layout-web.layout-web--default'); // Risultato ricerca con tab 'Notizie'.
+let container = document.querySelector('div.layout-web.layout-web--'); // Tab web.
+if (!container) container = document.querySelector('div.layout-images.layout-images--'); // Tab images.
+if (!container) container = document.querySelector('div.layout-video.layout-video--'); // Tab videos.
+if (!container) container = document.querySelector('div.layout-news.layout-news--'); // Tab news.
 container.appendChild(divMenu);
 
 let advLinks = document.getElementById('spon-results');
