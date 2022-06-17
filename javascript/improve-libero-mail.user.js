@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Improve Libero mail
 // @namespace    https://github.com/NeverWise/scripts
-// @version      0.7
+// @version      0.8
 // @description  Remove ads and show some useful information.
 // @author       NeverWise
 // @match        https://mail1.libero.it/appsuite/*
@@ -112,6 +112,7 @@ let rules = [
     { selectorAll: 'div.window-body', ...newChange(checkWindowsBodies) }, // Screen width < 1920
     { selectorAll: 'ul.subfolders li div.folder-node', ...newChange(addFolderBadge) },
     { selector: 'div.rightside', ...newChange(setCssText, [ 'top: 40px !important;' ]) },
+    { id: 'pushbox_closed', ...newChange(setCssText, [ 'display: none;' ]) },
     { selector: 'div.abs.window-content.vsplit.preview-none', ...newChange(setCssText, [ '' ]) } // New advs above email list (2020/06/16).
 ];
 
