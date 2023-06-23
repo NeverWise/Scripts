@@ -1,0 +1,55 @@
+#!/bin/bash
+
+RED='\033[0;31m'
+COLOR_OFF='\033[0m'
+YT_DLP_PATH="$(dirname "$0")/yt-dlp"
+if [[ -e "$YT_DLP_PATH" ]]
+then
+	# Se il file del programma `yt-dlp` esiste allora viene lanciato il comando di aggiornamento.
+	$YT_DLP_PATH -U
+else
+	# Se il file del programma `yt-dlp` non esiste allora viene scaricato e
+	# gli vengono aggiunti i permessi di esecuzione ma prima viene anche
+	# verificato che wget sia presente nel sistema.
+	type wget &> /dev/null # &> redirect stdout and stderr.
+	if [[ $? == 1 ]]
+	then
+		echo -e "${RED}Il programma 'wget' non è presente nel sistema.${COLOR_OFF}"
+		echo "Il programma 'wget' è necessario per recuperare la dipendenza 'yt-dlp'."
+		exit 1
+	fi
+	wget -q https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O $YT_DLP_PATH
+	chmod u+x $YT_DLP_PATH
+fi
+
+if [[ $1 == "" ]]
+then
+	echo -e "${RED}È necessario un URL come parametro.${COLOR_OFF}"
+	exit 1
+else
+	VIDEO_FORMATS=$($YT_DLP_PATH -F $1)
+	echo "$VIDEO_FORMATS" | grep ^22 > /dev/null
+	ERROR=$?
+	if [[ $ERROR == 0 ]]
+	then
+		$YT_DLP_PATH -f 22 $1
+		ERROR=$?
+	fi
+	if [[ $ERROR == 1 ]]
+	then
+		echo "$VIDEO_FORMATS" | grep ^136 > /dev/null
+		S_ID_136=$?
+		echo "$VIDEO_FORMATS" | grep ^140 > /dev/null
+		S_ID_140=$?
+		if [[ $S_ID_136 == 0 ]] && [[ $S_ID_140 == 0 ]]
+		then
+			$YT_DLP_PATH -f 136+140 $1
+			ERROR=$?
+		fi
+	fi
+	if [[ $ERROR == 1 ]]
+	then
+		echo -e "${RED}I formati specificati non sono disponibili. Si suggerisce di eseguire il comando \"yt-dlp -F $1\" e di scaricare un'altro stream manualmente tramite l'opzione "-f".${COLOR_OFF}"
+		exit 1
+	fi
+fi
