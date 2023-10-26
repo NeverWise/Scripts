@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# ENV example
+# --------------
+# CUBBIT_BACKUP_DIR=/cubbit/backup/mario
+# CUBBIT_MARIO=bucket:mario
+# EMAIL_SENDER='Server <server@example.com>'
+# EMAIL_RECIPIENT=mario@example.com
+
+existVar() {
+	[[ -n $1 ]]
+}
+
+error() {
+	CONFIG_ERROR+="$1\n"
+}
+
+errorEnv() {
+	error "env var $1 not set"
+}
+
+if existVar ${CUBBIT_BACKUP_DIR}; then
+	for DIR in "$CUBBIT_BACKUP_DIR"/*/; do
+		ENV_VAR=$(basename $DIR)
+		ENV_VAR="CUBBIT_${ENV_VAR^^}"
+		if existVar ${!ENV_VAR}; then
+			BUCKET=${!ENV_VAR}
+			rclone sync -P $DIR $BUCKET > rclone.log 2>&1
+			if [[ $? -gt 0 ]]; then
+				RCLONE_ERROR+="$(<rclone.log)\n"
+			fi
+		else
+			errorEnv $ENV_VAR
+		fi
+	done
+else
+	errorEnv "CUBBIT_BACKUP_DIR"
+fi
+
+if existVar "$RCLONE_ERROR" || existVar "$CONFIG_ERROR"; then
+
+	# Importanti i doppi apici `"$RCLONE_ERROR"` per preservare gli a capi.
+
+	RCLONE_ERROR=$(existVar "$RCLONE_ERROR" && echo -e "RCLONE SYNC ERRORS:\n\n$RCLONE_ERROR\n\n")
+	CONFIG_ERROR=$(existVar "$CONFIG_ERROR" && echo -e "CONFIG ERROR:\n\n$CONFIG_ERROR")
+
+	if existVar "$EMAIL_SENDER" || existVar "$EMAIL_RECIPIENT"; then
+		echo -e "$RCLONE_ERROR$CONFIG_ERROR" | \
+		mail -a "From: $EMAIL_SENDER" -s "Back-up report errors" ${EMAIL_RECIPIENT}
+	else
+		echo -e "$RCLONE_ERROR$CONFIG_ERROR"
+	fi
+
+	exit 1
+fi
+
