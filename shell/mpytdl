@@ -46,6 +46,16 @@ else
 			$YT_DLP_PATH -f 136+140 $1
 			ERROR=$?
 		fi
+		if [[ $ERROR == 1 ]]
+		then
+			AUDIO_FORMAT=$(echo "$VIDEO_FORMATS" | grep ^140 | grep -i 'italian original' | awk '{print $1}')
+			S_ID_140=$?
+			if [[ $S_ID_136 == 0 ]] && [[ $S_ID_140 == 0 ]]
+			then
+				$YT_DLP_PATH -f "136+$AUDIO_FORMAT" $1
+				ERROR=$?
+			fi
+		fi
 	fi
 	if [[ $ERROR == 1 ]]
 	then
